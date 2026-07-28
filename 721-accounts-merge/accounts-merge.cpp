@@ -29,7 +29,7 @@ void sizeparent(vector<int>&par,vector<int>&size,int pu,int pv){
         par[i]=i;
        }
 
-       map<string,int>mpp;
+       unordered_map<string,int>mpp;
        for (int i=0;i<accounts.size();i++){
           for (int j=1;j<accounts[i].size();j++){
             if (mpp.find(accounts[i][j])==mpp.end()){
