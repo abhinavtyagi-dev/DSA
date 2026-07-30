@@ -28,60 +28,37 @@ void sizeparent(vector<int>&par,vector<int>&size,int pu,int pv){
        for (int i=0;i<par.size();i++){
         par[i]=i;
        }
-
-       unordered_map<string,int>mpp;
-       for (int i=0;i<accounts.size();i++){
-          for (int j=1;j<accounts[i].size();j++){
+    unordered_map<string ,int>mpp;
+    for (int i=0;i<accounts.size();i++){
+        for (int j=1;j<accounts[i].size();j++){
             if (mpp.find(accounts[i][j])==mpp.end()){
                 mpp[accounts[i][j]]=i;
             }
             else{
-                if (mpp[accounts[i][j]]!=i){
-                int u=mpp[accounts[i][j]];
-                int v=i;
-                if (findparent(par,u)!=findparent(par,v)){
-                    sizeparent(par,size,u,v);
-                }
-                }
+                sizeparent(par,size,mpp[accounts[i][j]],i);
             }
-          }
-       }
-       vector<vector<string>>store(accounts.size());
-       for (int i=0;i<par.size();i++){
-         int parent=findparent(par,i);
-        if (parent==i){
-             if (store[parent].empty()){
-                        store[parent].push_back(accounts[parent][0]);
-                    }
-            for (int j=1;j<accounts[i].size();j++){
-                if (mpp.find(accounts[i][j])!=mpp.end()){
-                  store[i].push_back(accounts[i][j]);
-                   mpp.erase(accounts[i][j]);
-                }
-                 
-            }
+
         }
-        else{
-            for (int k=1;k<accounts[i].size();k++){
-                if (store[parent].empty()){
-                        store[parent].push_back(accounts[parent][0]);
-                    }
-                if (mpp.find(accounts[i][k])!=mpp.end()&&mpp[accounts[i][k]]==i){
-                    
-                 store[parent].push_back(accounts[i][k]);
-                 mpp.erase(accounts[i][k]);
-                }
-            }
-        }
-       }
-       vector<vector<string>>ans;
-       for (int i=0;i<store.size();i++){
-         if (!store[i].empty()){
-            sort(store[i].begin()+1,store[i].end());
-            ans.push_back(store[i]);
-            
-         }
-       }
-       return ans;
     }
+
+    vector<vector<string>>merge(accounts.size());
+    for (auto it:mpp){
+        int parent=findparent(par,it.second);
+        merge[parent].push_back(it.first);
+    }
+    vector<vector<string>>ans;
+    for (int i=0;i<merge.size();i++){
+        if (merge[i].size()==0){
+            continue;
+        }
+        vector<string>temp;
+        temp.push_back(accounts[i][0]);
+        sort(merge[i].begin(),merge[i].end());
+        for (auto it:merge[i]){
+            temp.push_back(it);
+        }
+        ans.push_back(temp);
+    }
+    return ans;
+}
 };
