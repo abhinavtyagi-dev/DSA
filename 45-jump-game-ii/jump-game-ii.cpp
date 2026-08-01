@@ -1,34 +1,21 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        vector<int>steps(1e4,0);
-       
-        int maxind=0;
-        for (int i=0;i<nums.size();i++){
-            if (maxind>=nums.size()-1){
-                break;
-            }
-            if (i+nums[i]>maxind){
-                maxind=i+nums[i];
-                int j=1;
-                int st=0;
-                while (steps[j]!=0){
-                    if (i<=steps[j]){
-                        st=j;
-                        
-                        break;
-                    }
-                    j++;
-                    
-                }
-                steps[st+1]=maxind;
-            }
-        }
-        for (int i=0;i<steps.size();i++){
-            if (steps[i]>=maxind){
-                return i;
-            }
-        }
-        return -1;
+        int jumps=0;
+        int l=0,r=0;
+       while (r<nums.size()-1){
+          int ind=r+1;
+          int i=l;
+          int maxi=INT_MIN;
+          while (i<=r){
+            maxi=max(maxi,i+nums[i]);
+            i++;
+          }
+          r=maxi;
+          l=ind;
+          jumps++;
+
+       }
+       return jumps;
     }
 };
