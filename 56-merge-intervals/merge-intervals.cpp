@@ -1,49 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        vector<pair<int,int>>store;
-        int n=intervals.size();
-        for (int i=0;i<n;i++){
-            int f=intervals[i][0];
-            int l=intervals[i][1];
-            store.push_back({f,l});
-        }
-        sort(store.begin(),store.end());
-        vector<vector<int>>ans;
-        int j=0;
+        sort(intervals.begin(),intervals.end());
         int minf=INT_MAX;
         int maxl=INT_MIN;
-       
-        for (int i=0;i<store.size();i++){
+        vector<vector<int>>ans;
+        for (int i=0;i<intervals.size();i++){
             if (minf==INT_MAX&&maxl==INT_MIN){
-                minf=store[i].first;
-                maxl=store[i].second;
-               
+                minf=intervals[i][0];
+                maxl=intervals[i][1];
             }
-            else if (store[i].first>maxl){
-               vector<int>temp;
-               temp.push_back(minf);
-               temp.push_back(maxl);
-               ans.push_back(temp);
-                 minf=store[i].first;
-                maxl=store[i].second;
-                
-                j++;
+            else if (intervals[i][0]>maxl){
+                vector<int>temp;
+                temp.push_back(minf);
+                temp.push_back(maxl);
+                ans.push_back(temp);
+                minf=intervals[i][0];
+                maxl=intervals[i][1];
             }
-         else{
-            maxl=max(maxl,store[i].second);
-            minf=min(minf,store[i].first);
-             
-         }
-
-
+            else{
+                 minf=min(intervals[i][0],minf);
+                maxl=max(intervals[i][1],maxl);
+            }
         }
-        if (minf!=INT_MAX&&maxl!=INT_MIN){
+        if (minf!=INT_MIN&&maxl!=INT_MIN){
              vector<int>temp;
-               temp.push_back(minf);
-               temp.push_back(maxl);
-               ans.push_back(temp);
+                temp.push_back(minf);
+                temp.push_back(maxl);
+                ans.push_back(temp);
         }
-       return ans;
+        return ans;
     }
 };
