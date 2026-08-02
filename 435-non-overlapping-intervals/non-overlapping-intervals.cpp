@@ -1,26 +1,25 @@
 class Solution {
 public:
-    void removeint( vector<pair<int,int>>&store,int& cnt){
-        int nexttime=INT_MIN;
-        for (int i=0;i<store.size();i++){
-            if (store[i].second>=nexttime){
-                nexttime=store[i].first;
-            }
-            else{
-                cnt++;
-            }
-        }
+   static bool comp(vector<int>&p1,vector<int>&p2){
+    if (p1[1]<p2[1]){
+        return true;
     }
+    else{
+        return false;
+    }
+   }
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-      vector<pair<int,int>>store;
-      for (int i=0;i<intervals.size();i++){
-        int st=intervals[i][0];
-        int ft=intervals[i][1];
-        store.push_back({ft,st});
-      }
-      sort(store.begin(),store.end());
-      int cnt=0;
-      removeint(store,cnt);
-      return cnt;
+        sort(intervals.begin(),intervals.end(),comp);
+        int cnt=0;
+        int nexttime=INT_MIN;
+        for (int i=0;i<intervals.size();i++){
+             if (intervals[i][0]>=nexttime){
+                nexttime=intervals[i][1];
+             }
+             else{
+                cnt++;
+             }
+        }
+        return cnt;
     }
 };
