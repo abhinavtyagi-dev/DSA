@@ -9,7 +9,7 @@ public:
             store.push_back({f,l});
         }
         sort(store.begin(),store.end());
-        vector<vector<int>>ans(intervals.size());
+        vector<vector<int>>ans;
         int j=0;
         int minf=INT_MAX;
         int maxl=INT_MIN;
@@ -21,8 +21,10 @@ public:
                
             }
             else if (store[i].first>maxl){
-                ans[j].push_back(minf);
-                ans[j].push_back(maxl);
+               vector<int>temp;
+               temp.push_back(minf);
+               temp.push_back(maxl);
+               ans.push_back(temp);
                  minf=store[i].first;
                 maxl=store[i].second;
                 
@@ -37,16 +39,11 @@ public:
 
         }
         if (minf!=INT_MAX&&maxl!=INT_MIN){
-             ans[j].push_back(minf);
-                ans[j].push_back(maxl);
+             vector<int>temp;
+               temp.push_back(minf);
+               temp.push_back(maxl);
+               ans.push_back(temp);
         }
-        vector<vector<int>>temp;
-        for (int i=0;i<ans.size();i++){
-            if (ans[i].empty()){
-                break;
-            }
-            temp.push_back(ans[i]);
-        }
-        return temp;
+       return ans;
     }
 };
