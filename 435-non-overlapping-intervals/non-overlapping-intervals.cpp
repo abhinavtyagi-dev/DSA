@@ -1,24 +1,25 @@
 class Solution {
 public:
-   static bool comp(vector<int>&p1,vector<int>&p2){
-    if (p1[1]<p2[1]){
-        return true;
-    }
-    else{
-        return false;
-    }
-   }
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        sort(intervals.begin(),intervals.end(),comp);
-        int cnt=0;
+        sort(intervals.begin(),intervals.end());
         int nexttime=INT_MIN;
+        int cnt=0;
         for (int i=0;i<intervals.size();i++){
-             if (intervals[i][0]>=nexttime){
-                nexttime=intervals[i][1];
-             }
-             else{
+            if (intervals[i][0]<nexttime){
                 cnt++;
-             }
+                if (nexttime==INT_MIN){
+                    nexttime=intervals[i][1];
+                }
+                else{
+                    if (intervals[i][1]<nexttime){
+                        nexttime=intervals[i][1];
+                    }
+                }
+
+            }
+            else{
+                nexttime=intervals[i][1];
+            }
         }
         return cnt;
     }
