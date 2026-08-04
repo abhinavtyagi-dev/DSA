@@ -1,35 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        intervals.push_back(newInterval);
-        sort(intervals.begin(),intervals.end());
-        int minf=INT_MAX;
-        int maxl=INT_MIN;
+        int minf=newInterval[0];
+        int maxl=newInterval[1];
+        int n=intervals.size();
+        int i=0;
         vector<vector<int>>ans;
-        for (int i=0;i<intervals.size();i++){
-            if (minf==INT_MAX&&maxl==INT_MIN){
-                minf=intervals[i][0];
-                maxl=intervals[i][1];
-            }
-            else if (intervals[i][0]>maxl){
-                vector<int>temp;
-                temp.push_back(minf);
-                temp.push_back(maxl);
-                ans.push_back(temp);
-                minf=intervals[i][0];
-                maxl=intervals[i][1];
-            }
-            else{
-                 minf=min(intervals[i][0],minf);
-                maxl=max(intervals[i][1],maxl);
-            }
+        while (i<n&&intervals[i][0]<newInterval[0]&&intervals[i][1]<newInterval[0]){
+            vector<int>temp;
+            temp.push_back(intervals[i][0]);
+            temp.push_back(intervals[i][1]);
+            ans.push_back(temp);
+            i++;
         }
-        if (minf!=INT_MIN&&maxl!=INT_MIN){
-             vector<int>temp;
-                temp.push_back(minf);
-                temp.push_back(maxl);
-                ans.push_back(temp);
+        while (i<n&&intervals[i][0]<=maxl){
+            maxl=max(intervals[i][1],maxl);
+            minf=min(intervals[i][0],minf);
+            i++;
         }
-        return ans;
+        vector<int>temp1;
+            temp1.push_back(minf);
+            temp1.push_back(maxl);
+            ans.push_back(temp1);
+        while (i<n&&intervals[i][0]>newInterval[1]&&intervals[i][1]>newInterval[1]){
+            vector<int>temp;
+            temp.push_back(intervals[i][0]);
+            temp.push_back(intervals[i][1]);
+            ans.push_back(temp);
+            i++;
+        }
+         return ans;   
     }
 };
