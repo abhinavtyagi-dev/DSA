@@ -1,46 +1,29 @@
 class Solution {
-    void dfs(vector<int>&ratings, vector<int>& vis,vector<int>&store,int&cnt,int node){
-         
-          
-           if (!vis[node]){
-            if (ratings[node+1]<ratings[node]){
-                dfs(ratings,vis,store,cnt,node+1);
-            }
-            
-           
-           }
-           vis[node]=1;
-            store[node]=cnt;
-            cnt=cnt+1;
-           return ;
-    }
 public:
     int candy(vector<int>& ratings) {
-        vector<int>small;
-        vector<int>vis(ratings.size(),0);
-        vis[ratings.size()-1]=1;
-        vector<int>store(ratings.size(),0);
-        store[ratings.size()-1]=0;
-        for (int i=0;i<ratings.size();i++){
-             if (!vis[i]){
-                int cnt=0;
-                dfs(ratings,vis,store,cnt,i);
-             }
+        vector<int> left(ratings.size(),0);
+        left[0]=1;
+        for (int i=1;i<ratings.size();i++){
+              if (ratings[i]>ratings[i-1]){
+                left[i]=left[i-1]+1;
+              }
+              else{
+                left[i]=1;
+              }
         }
-        int candy=0;
-        int l=0;
-        
-        for (int i=0;i<store.size();i++){
-            int cnt=1;
-            if (i>0){
-                if (ratings[i]>ratings[i-1]){
-                   cnt=l+1;
-                }
+        int sum=max(1,left[ratings.size()-1]);
+       int curr=1,right=1;
+        for (int i=ratings.size()-2;i>=0;i--){
+            if (ratings[i]>ratings[i+1]){
+                curr=right+1;
+                sum+=max(curr,left[i]);
+                right=curr;
             }
-          
-            candy+=max(cnt,store[i]+1);
-            l=max(cnt,store[i]+1);
+            else{
+                sum+=left[i];
+                right=1;
+            }
         }
-        return candy;
+        return sum;
     }
 };
