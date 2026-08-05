@@ -28,17 +28,18 @@ public:
              }
         }
         int candy=0;
-        vector<int>s;
+        int l=0;
+        
         for (int i=0;i<store.size();i++){
             int cnt=1;
             if (i>0){
                 if (ratings[i]>ratings[i-1]){
-                    cnt=s[i-1]+1;
+                   cnt=l+1;
                 }
             }
           
             candy+=max(cnt,store[i]+1);
-            s.push_back(max(cnt,store[i]+1));
+            l=max(cnt,store[i]+1);
         }
         return candy;
     }
