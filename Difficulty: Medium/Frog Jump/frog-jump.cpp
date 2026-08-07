@@ -1,20 +1,18 @@
 class Solution {
   public:
-   int frog(vector<int>&height,vector<int>&dp,int i){
-       if (dp[i]!=-1){
-           return dp[i];
-       }
-       
-       return dp[i]=min(abs(height[i]-height[i-1])+frog(height,dp,i-1),abs(height[i]-height[i-2])+frog(height,dp,i-2));
-   }
     int minCost(vector<int>& height) {
-        int n=height.size();
-         vector<int>dp(n,-1);
-         dp[0]=0;
-         dp[1]=0+abs(height[1]-height[0]);
-         
-         int i=n-1;
-         int ans=frog(height,dp,i);
-         return ans;
+        if (height.size()==1){
+            return 0;
+        }
+        if (height.size()==2){
+            return abs(height[1]-height[0]);
+        }
+        int prev1=0,prev2=abs(height[0]-height[1]);
+        for (int i=2;i<height.size();i++){
+            int curr=min(prev1+abs(height[i]-height[i-2]),prev2+abs(height[i]-height[i-1]));
+            prev1=prev2;
+            prev2=curr;
+        }
+        return prev2;
     }
 };
