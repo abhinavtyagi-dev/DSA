@@ -3,10 +3,7 @@ class Solution {
 public:
     int findpaths(int m,int n ,int r,int c,vector<vector<int>>&dp){
         int step=0;
-        if (r==m-1&&c==n-1){
-            steps+=1;
-            return 1;
-        }
+        
         if (dp[r][c]!=0){
             steps+=dp[r][c];
             return dp[r][c];
