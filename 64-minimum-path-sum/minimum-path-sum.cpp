@@ -1,32 +1,37 @@
 class Solution {
 public:
+    int findsum(vector<vector<int>>& grid,vector<int>& store){
+        int n=grid.size();
+        int m=grid[0].size();
+        int dr=-1,dc=-1;
+        for(int i=1;i<n;i++){
+            vector<int>temp(m,0);
+            for (int j=0;j<m;j++){
+                  int up=INT_MAX,left=INT_MAX;
+                  if(i+dr>=0){
+                    up=0;
+                    up+=store[j];
+                  }
+                  if (j+dc>=0){
+                    left=0;
+                    left+=temp[j-1];
+                  }
+                  temp[j]=grid[i][j]+min(up,left);
+         }
+         store=temp;
+        }
+        return store[m-1];
+            }
     int minPathSum(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
-        vector<vector<int>> dp(n,vector<int>(m,0));
-        dp[0][0]=grid[0][0];
+        vector<int>store(m,0);
+        store[0]=grid[0][0];
         for (int i=1;i<m;i++){
-            dp[0][i]=grid[0][i]+dp[0][i-1];
-             }
-             int dr=-1,dc=-1;
-        for (int i=1;i<n;i++){
-            for (int j=0;j<m;j++){
-                int up=INT_MAX,left=INT_MAX;
-                if (i+dr>=0){
-                    if (up==INT_MAX){
-                        up=0;
-                    }
-                    up+=dp[i+dr][j];
-                }
-                if (j+dc>=0){
-                    if (left==INT_MAX){
-                        left=0;
-                    }
-                    left+=dp[i][j+dc];
-                }
-                dp[i][j]=grid[i][j]+min(up,left);
-            }
+            store[i]+=grid[0][i]+store[i-1];
         }
-        return dp[n-1][m-1];
+
+        int ans=findsum(grid,store);
+        return ans;
     }
 };
