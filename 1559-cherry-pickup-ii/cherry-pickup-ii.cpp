@@ -1,46 +1,46 @@
 class Solution {
 public:
-   int findcherry(vector<vector<int>>& mat,     vector<vector<vector<int>>>& dp,int i,int j1,int j2){
-    int n=mat.size(),m=mat[0].size();
-    if (j1<0||j1>=m||j2<0||j2>=m){
-        return INT_MIN;
-    }
-    if (i==n-1){
-        if (j1==j2){
-            return mat[i][j1];
-        }
-        else{
-            return (mat[i][j1]+mat[i][j2]);
-        }
-    }
-    if (dp[i][j1][j2]!=-1){
-        return dp[i][j1][j2];
-    }
-       int maxi=0;
-       for (int i1=-1;i1<=1;i1++){
-        for (int j=-1;j<=1;j++){
-            int ans=0;
-            if (j1==j2){
-              ans=mat[i][j1]+findcherry(mat,dp,i+1,j1+i1,j2+j);
-            }
-            else{
-                   ans=mat[i][j1]+mat[i][j2]+findcherry(mat,dp,i+1,j1+i1,j2+j);
-            }
-            maxi=max(maxi,ans);
-        }
-
-       }
-       dp[i][j1][j2]=maxi;
-       return maxi;
-      
-    
-   }
     int cherryPickup(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
-     vector<vector<vector<int>>> dp(n,
-            vector<vector<int>>(m, vector<int>(m, -1)));
-            int ans=findcherry(grid,dp,0,0,m-1);
-            return ans;
+        vector<vector<vector<int>>>dp(n,vector<vector<int>>(m,vector<int>(m,-1)));
+        for (int j1=0;j1<m;j1++){
+            for (int j2=0;j2<m;j2++){
+                if (j1==j2){
+                    dp[n-1][j1][j2]=grid[n-1][j1];
+                }
+                else{
+                    dp[n-1][j1][j2]=grid[n-1][j1]+grid[n-1][j2];
+                }
+            }
         }
+        int dr[3]={-1,0,1};
+        for (int i=n-2;i>=0;i--){
+            for (int j1=0;j1<m;j1++){
+                for (int j2=0;j2<m;j2++){
+                    int value=INT_MIN;
+                     for (int dj1=0;dj1<3;dj1++){
+                        for (int dj2=0;dj2<3;dj2++){
+                            int nc1=j1+dr[dj1];
+                            int nc2=j2+dr[dj2];
+                            if (nc1>=0&&nc1<m&&nc2>=0&&nc2<m){
+                                if (j1==j2){
+                                  
+                                    value=max(value,grid[i][j1]+dp[i+1][nc1][nc2]);
+                                }
+                                else{
+                                    
+                                    value=max(value,grid[i][j1]+grid[i][j2]+dp[i+1][nc1][nc2]);
+                                }
+                                
+                            }
+                             dp[i][j1][j2]=value;
+                        }
+                       
+                     }
+                }
+            }
+        }
+        return dp[0][0][m-1];
+    }
 };
