@@ -12,7 +12,7 @@ public:
             }
             }
          }
-        vector<vector<int>>dp(n,vector<int>(20001,0));
+        vector<vector<int>>dp(n,vector<int>(3004,0));
           dp[0][nums[0]]=1;
         if (nums[0]==0){
             dp[0][nums[0]]=2;
