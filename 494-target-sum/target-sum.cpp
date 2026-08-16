@@ -1,34 +1,32 @@
 class Solution {
 public:
-   
-int findsum(vector<int>& arr,int k,int ind,vector<vector<int>>&dp){
-      
-       if (ind==-1){
-           if (k==0){
-               return 1;
-           }
-           else{
-            return 0;
-           }
-       }
-     
-        if (dp[ind][abs(k)]!=-1){
-            return dp[ind][abs(k)];
-      
-     }
-       int same=findsum(arr,k-arr[ind],ind-1,dp);
-       int diff=findsum(arr,k+arr[ind],ind-1,dp);
-
-      
-       dp[ind][abs(k)]=same+diff;
-    
-       return same+diff;
-}
     int findTargetSumWays(vector<int>& nums, int target) {
-        int n=nums.size();
-        vector<vector<int>> dp(n,vector<int>(2001,-1));
-        target=abs(target);
-         int ans=findsum(nums,target,n-1,dp);
-         return ans;
+         int n=nums.size();
+         if (nums.size()==1){
+            if (nums[0]==target){
+            if (nums[0]==0){
+                return 2;
+            }
+            else{
+               return 1; 
+            }
+            }
+         }
+        vector<vector<int>>dp(n,vector<int>(20001,0));
+          dp[0][nums[0]]=1;
+        if (nums[0]==0){
+            dp[0][nums[0]]=2;
+        }
+      
+
+        for (int i=1;i<n;i++){
+            for (int j=0;j<=2001;j++){
+                int same=0,diff=0;
+                same=dp[i-1][abs(j-nums[i])];
+                diff=dp[i-1][abs(j+nums[i])];
+                dp[i][j]=same+diff;
+            }
+        }
+        return dp[n-1][abs(target)];
     }
 };
