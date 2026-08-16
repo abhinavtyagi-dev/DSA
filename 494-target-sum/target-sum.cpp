@@ -12,21 +12,23 @@ public:
             }
             }
          }
-        vector<vector<int>>dp(n,vector<int>(3004,0));
-          dp[0][nums[0]]=1;
+        vector<int> dp(3004,0);
+          dp[nums[0]]=1;
         if (nums[0]==0){
-            dp[0][nums[0]]=2;
+            dp[nums[0]]=2;
         }
       
 
         for (int i=1;i<n;i++){
+            vector<int>curr(3004,0);
             for (int j=0;j<=2001;j++){
                 int same=0,diff=0;
-                same=dp[i-1][abs(j-nums[i])];
-                diff=dp[i-1][abs(j+nums[i])];
-                dp[i][j]=same+diff;
+                same=dp[abs(j-nums[i])];
+                diff=dp[abs(j+nums[i])];
+                curr[j]=same+diff;
             }
+            dp=curr;
         }
-        return dp[n-1][abs(target)];
+        return dp[abs(target)];
     }
 };
