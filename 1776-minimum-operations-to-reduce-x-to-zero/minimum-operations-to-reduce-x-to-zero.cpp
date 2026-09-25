@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-        map<long long,int>mpp;
+        unordered_map<long long,int>mpp;
         long long sum=0;
         mpp[0]=nums.size();
         for (int i=nums.size()-1;i>=0;i--){
