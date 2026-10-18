@@ -3,7 +3,7 @@ public:
     int maximumUniqueSubarray(vector<int>& nums) {
         int l=0,r=0;
         int n=nums.size();
-        map<int,int>mpp;
+        unordered_map<int,int>mpp;
         int maxsum=INT_MIN;
        
         int sum1=0;
