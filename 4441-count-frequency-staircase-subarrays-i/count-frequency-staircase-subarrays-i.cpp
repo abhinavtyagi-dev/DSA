@@ -5,8 +5,8 @@ public:
         int cnt=0;
         for (int i=0;i<n;i++){
             int cnt1=1;
-            map<int,int>vis;
-            map<int,int>mpp;
+            unordered_map<int,int>vis;
+            unordered_map<int,int>mpp;
             for (int j=i;j<n;j++){
                if (vis.find(nums[j])==vis.end()){
                   vis[nums[j]]++;
